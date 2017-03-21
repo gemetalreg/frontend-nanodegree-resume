@@ -1,9 +1,10 @@
 /*
 This is empty on purpose! Your code to build the resume will go here.
  */
+ var firstName = "Andrew";
  var formattedName = HTMLheaderName.replace("%data%", firstName);
  var formattedRole = HTMLheaderRole.replace("%data%", "Web developer");
- $("#header").prepend(formattedName);
+ $("#header").append(formattedName);
  $("#header").append(formattedRole);
 
 function Job(employer, title, location, dates, description) {
@@ -41,7 +42,6 @@ var bio = {
   "skills" : ["Python", "Java", "R"],
   "pic" : "images/clipart-babochka.png"
 };
-$("#main").append(bio["name"]);
 
 function School(name, location, dates, url, majors) {
   // contains name, location, degree dates and url strings, and amajors array of major strings
@@ -62,18 +62,35 @@ function onlineCourse(title, school, dates, url) {
 
 var education = {
   "schools" : [new School("Lycium2", "Tula", "2012", "https://example.com", "engineer")],
-  "onlineCourses" : [new onlineCourses("JavaScript Basics", "Udacity", "2017", "https://classroom.udacity.com/courses/ud804")]
+  "onlineCourses" : [new onlineCourse("JavaScript Basics", "Udacity", "2017", "https://classroom.udacity.com/courses/ud804")]
 };
-
-$("#main").append(work.position);
-$("#main").append(education["name"]);
 
 if (bio.skills.length > 0) {
   $("#header").append(HTMLskillsStart);
-  for (var skill in bio.skills) {
-    var formattedSkill = HTMLskills.replace("%data%", skill);
+  bio.skills.forEach(function(val) {
+    var formattedSkill = HTMLskills.replace("%data%", val);
     $("#skills").append(formattedSkill);
-  }
+  });
+}
+
+for (job in work.jobs) {
+
+  $("#workExperience").append(HTMLworkStart);
+
+  var formatEmp = HTMLworkEmployer.replace("%data%", work.jobs[job].employer);
+  var formatTitle = HTMLworkTitle.replace("%data%", work.jobs[job].title);
+
+  var formatLocation = HTMLworkLocation.replace("%data%", work.jobs[job].location);
+  var formatDates = HTMLworkDates.replace("%data%", work.jobs[job].dates);
+  var formatDescription = HTMLworkDescription.replace("%data%", work.jobs[job].description);
+
+  $(".work-entry:last").append(formatEmp + formatTitle);
+
+  var formatWorkArray = [formatLocation, formatDates, formatDescription];
+  formatWorkArray.forEach(function(val){
+    $(".work-entry:last").append(val);
+  });
+
 }
 
 
