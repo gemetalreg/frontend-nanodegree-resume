@@ -67,3 +67,13 @@ var education = {
 
 $("#main").append(work.position);
 $("#main").append(education["name"]);
+
+if (bio.skills.length > 0) {
+  $("#header").append(HTMLskillsStart);
+  for (var skill in bio.skills) {
+    var formattedSkill = HTMLskills.replace("%data%", skill);
+    $("#skills").append(formattedSkill);
+  }
+}
+
+
