@@ -73,24 +73,81 @@ if (bio.skills.length > 0) {
   });
 }
 
-for (job in work.jobs) {
+function displayWork() {
+  for (var job in work.jobs) {
 
-  $("#workExperience").append(HTMLworkStart);
+    $("#workExperience").append(HTMLworkStart);
 
-  var formatEmp = HTMLworkEmployer.replace("%data%", work.jobs[job].employer);
-  var formatTitle = HTMLworkTitle.replace("%data%", work.jobs[job].title);
+    var formatEmp = HTMLworkEmployer.replace("%data%", work.jobs[job].employer);
+    var formatTitle = HTMLworkTitle.replace("%data%", work.jobs[job].title);
 
-  var formatLocation = HTMLworkLocation.replace("%data%", work.jobs[job].location);
-  var formatDates = HTMLworkDates.replace("%data%", work.jobs[job].dates);
-  var formatDescription = HTMLworkDescription.replace("%data%", work.jobs[job].description);
+    var formatLocation = HTMLworkLocation.replace("%data%", work.jobs[job].location);
+    var formatDates = HTMLworkDates.replace("%data%", work.jobs[job].dates);
+    var formatDescription = HTMLworkDescription.replace("%data%", work.jobs[job].description);
 
-  $(".work-entry:last").append(formatEmp + formatTitle);
+    $(".work-entry:last").append(formatEmp + formatTitle);
 
-  var formatWorkArray = [formatLocation, formatDates, formatDescription];
-  formatWorkArray.forEach(function(val){
-    $(".work-entry:last").append(val);
-  });
-
+    var formatWorkArray = [formatLocation, formatDates, formatDescription];
+    formatWorkArray.forEach(function(val){
+      $(".work-entry:last").append(val);
+    });
+  }
 }
 
+displayWork();
 
+function locationizer(work_object) {
+  var workLocations = [];
+  work_object.jobs.forEach(function(val) {
+    workLocations.push(val.location);
+  });
+  return workLocations;
+}
+
+$("#main").append(internationalizeButton);
+
+function inName(nameAndSurname) {
+  var namesArray = nameAndSurname.trim().split(" ");
+  var name = namesArray[0];
+  return name[0].toUpperCase() + name.slice(1) + " " + namesArray[1].toUpperCase();
+}
+
+//var projects = {"projects" : [new Project("Portfolio", "2017", "JS Portfolio", [])]};
+/*
+function Project(title, dates, description, images) {
+  // should contain title, dates and description strings, and an images array with URL strings for project images
+  this.title = title;
+  this.dates = dates;
+  this.description =  description;
+  this.images = images;
+
+var HTMLprojectStart = '<div class="project-entry"></div>';
+var HTMLprojectTitle = '<a href="#">%data%</a>';
+var HTMLprojectDates = '<div class="date-text">%data%</div>';
+var HTMLprojectDescription = '<p><br>%data%</p>';
+var HTMLprojectImage = '<img src="%data%">';
+*/
+projects.display = function() {
+  projects.projects.forEach(function(val) {
+    $("#projects").append(HTMLprojectStart);
+
+    var projectTitle = HTMLprojectTitle.replace("%data%", val.title);
+    var projectDates = HTMLprojectDates.replace("%data%", val.dates);
+    var projectDescription = HTMLprojectDescription.replace("%data%", val.description);
+
+    var projectTextArray = [projectTitle, projectDates, projectDescription];
+    projectTextArray.forEach(function(text) {
+      $(".project-entry:last").append(text);
+    });
+
+    if (val.images.length > 0) {
+      val.images.forEach(function(imag) {
+      var tempImage = HTMLprojectImage.replace("%data%", imag);
+      $(".project-entry:last").append(tempImage);
+    });
+    }
+
+  });
+};
+
+projects.display();
